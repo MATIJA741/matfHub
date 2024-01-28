@@ -1,0 +1,12 @@
+---
+Language: Cpp
+BasedOnStyle: LLVM
+IndentWidth: 4
+BreakBeforeBraces: Linux
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortBlocksOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: Never
+IndentCaseLabels: true
+IncludeBlocks: Regroup
+PackConstructorInitializers: Never

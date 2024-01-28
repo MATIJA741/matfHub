@@ -2,34 +2,33 @@
 
 #define MATRIX_HPP
 
+#include <QString>
+#include <armadillo>
 #include <iostream>
 #include <vector>
 
-#include <QString>
+class Matrix
+{
 
-#include <armadillo>
-
-class Matrix{
-
-public:
-//konstruktori
+  public:
+    // konstruktori
     Matrix(const unsigned rows = 1, const unsigned columns = 1);
     Matrix(const unsigned rows, const unsigned columns, const QString data);
     Matrix(const Matrix &other);
-    //destruktor
+    // destruktor
 
-    //get
+    // get
     auto getShape();
     auto toString();
 
     static auto getSaved(unsigned int index);
 
-    //getters
+    // getters
     unsigned rows() const;
     unsigned columns() const;
     arma::mat data() const;
 
-    //setters
+    // setters
     void rows(unsigned u);
     void columns(unsigned u);
     void data(arma::mat &newData);
@@ -38,15 +37,14 @@ public:
     void setValue(double value, unsigned i, unsigned j);
     void reshapeMatrix(unsigned col, unsigned row);
 
-    static void switchMatrices(Matrix* m1, Matrix* m2);
+    static void switchMatrices(Matrix *m1, Matrix *m2);
 
-
-    //set
+    // set
     auto saveMatrix();
     auto loadLeft(unsigned index);
     auto loadRight(unsigned index);
 
-    //functions
+    // functions
 
     auto transpose();
     auto inverse();
@@ -54,26 +52,22 @@ public:
     auto eye();
     auto diag();
 
-    //operators
-    auto operator + (const Matrix &other) const;
-    auto operator - (const Matrix &other) const;
-    auto operator * (const Matrix &other) const;
+    // operators
+    auto operator+(const Matrix &other) const;
+    auto operator-(const Matrix &other) const;
+    auto operator*(const Matrix &other) const;
 
+    Matrix &operator=(const Matrix &other);
 
-    Matrix &operator = (const Matrix &other);
-
-    
-private:
-
+  private:
     unsigned m_rows;
     unsigned m_columns;
-    arma::mat* m_data;
+    arma::mat *m_data;
 
-    //TODO this...
-    static std::vector<Matrix*> m_savedMatrices;
-
+    // TODO this...
+    static std::vector<Matrix *> m_savedMatrices;
 };
 
 std::ostream &operator<<(std::ostream &out, const Matrix *value);
 
-#endif //MATRIX_HPP
+#endif // MATRIX_HPP
