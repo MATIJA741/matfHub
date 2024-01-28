@@ -2,19 +2,20 @@
 
 #define PLOTTER_HPP
 
-#include <algorithm>
-#include <cmath>
 #include <iostream>
-#include <matplot/matplot.h>
-#include <numeric>
-#include <string.h>
 #include <vector>
 
-class Plotter
-{
+#include <cmath>
+#include <numeric>
+#include <algorithm>
+#include <matplot/matplot.h>
 
-  public:
-    // destruktor
+#include <string.h>
+
+class Plotter{
+
+public:
+    //destruktor
     ~Plotter();
 
     static auto getPlotter();
@@ -23,25 +24,25 @@ class Plotter
 
     void linSpace(double lowerBound, double upperBound, size_t step);
     void transformData(double (*func)(double));
-    void transformDataParse(double (*func1)(double, char *),
-                            double (*func2)(double, char *));
+    void transformDataParse(double (*func1)(double, char*), double (*func2)(double, char*));
 
     void savePlot();
 
-    // setters
+    //setters
     void xData(std::vector<double> &newX);
     void yData(std::vector<double> &newY);
     void output(std::string text);
 
-    // getters
+    //getters
     std::vector<double> xData() const;
     std::vector<double> yData() const;
     std::string output() const;
 
-  private:
-    // konstruktor
+private:
+
+    //konstruktor
     Plotter();
-    static Plotter *plotPtr;
+    static Plotter* plotPtr;
 
     std::vector<double> _xData;
     std::vector<double> _yData;

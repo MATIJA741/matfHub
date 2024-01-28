@@ -1,33 +1,38 @@
 #pragma once
 
-#include <cstring>
 #include <iostream>
 #include <vector>
-class Parser
-{
+#include <cstring>
+class Parser{
 
 #define NUMVARS 26
 
-  public:
+public:
+
     Parser();
     ~Parser();
     auto evalExpression(char *exp) -> double;
     char errorMessage[64];
+    
 
-  protected:
+protected:
+
     void evalToken(double &result);
     void evalAdd(double &result);
     void evalMultiply(double &result);
     void evalPow(double &result);
     void evalUnar(double &result);
     void evalParantheses(double &result);
-    void evalFunc(double &result, char *token);
+    void evalFunc(double &result, char* token);
     void getToken();
 
     void checkOperator(double &result, char op, double temp);
 
+
     char *expressionPtr; // points to the expression
-    char token[256];     // holds current token
-    char tokenType;      // holds token's type
-    double *vars;        // holds variable's values
+    char token[256]; // holds current token
+    char tokenType; // holds token's type
+    double *vars; // holds variable's values
+
+
 };
