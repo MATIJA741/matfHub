@@ -9,30 +9,6 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Network Core)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Network Core)
-
-#CALCULATOR THINGS
-find_package(Armadillo REQUIRED)
-include_directories(${ARMADILLO_INCLUDE_DIRS})
-
-
-include(FetchContent)
-FetchContent_Declare(matplotplusplus
-        GIT_REPOSITORY https://github.com/alandefreitas/matplotplusplus
-        GIT_TAG origin/master)
-
-FetchContent_GetProperties(matplotplusplus)
-if(NOT matplotplusplus_POPULATED)
-    FetchContent_Populate(matplotplusplus)
-    add_subdirectory(${matplotplusplus_SOURCE_DIR} ${matplotplusplus_BINARY_DIR} EXCLUDE_FROM_ALL)
-endif()
-
-#find_package(Matplot++ REQUIRED)
-
-
-###############################
-
 file(GLOB PROJECT_SOURCES
     "matfHub/src/*.cpp"
     "matfHub/include/*.hpp"
@@ -63,7 +39,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 # Specify the path to your .sh file
 set(MY_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/prebuild.sh")
 
-
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET matfHub APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
@@ -93,9 +68,7 @@ target_link_libraries(
     matfHub PRIVATE Qt${QT_VERSION_MAJOR}::Widgets 
     Qt${QT_VERSION_MAJOR}::Network 
     Qt${QT_VERSION_MAJOR}::Core 
-    PUBLIC Matplot++::matplot ${ARMADILLO_LIBRARIES}
 )
-
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
