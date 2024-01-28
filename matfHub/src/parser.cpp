@@ -1,16 +1,13 @@
 #include "../include/parser.hpp"
-
 #include "../include/parserEnum.hpp"
-
-#include <cmath>
 #include <cstring>
+#include <cmath> 
 
-// TODO refactor code
+//TODO refactor code
 
 #define PI 3.14159265358979323846
 
-Parser::Parser()
-{
+Parser::Parser(){
     vars = new double[NUMVARS];
     int i;
     expressionPtr = nullptr;
@@ -19,20 +16,18 @@ Parser::Parser()
     errorMessage[0] = '\0';
 }
 
-Parser::~Parser()
-{
-    delete[] vars;
-    vars = nullptr;
+Parser::~Parser(){
+    delete[] vars; vars = nullptr;
     std::cout << "Unisten: parser" << std::endl;
 }
 
-auto Parser::evalExpression(char *exp) -> double
-{
+auto Parser::evalExpression(char *exp) -> double { 
     errorMessage[0] = '\0';
     double result;
     expressionPtr = exp;
     getToken();
-    if (!*token) {
+    if (!*token) 
+    {
         strcpy(errorMessage, "No Expression Present"); // no expression present
         return (double)0;
     }
@@ -42,22 +37,24 @@ auto Parser::evalExpression(char *exp) -> double
     return result;
 }
 
-void Parser::evalToken(double &result)
-{
+void Parser::evalToken(double &result){
     int slot;
     char tmpToken[80];
-    if (tokenType == VARIABLE) {
+    if (tokenType == VARIABLE)
+    {
         // save old token
         char *tmpPtr = expressionPtr;
         strcpy(tmpToken, token);
         // compute the index of the variable
         slot = *token - 'A';
         getToken();
-        if (*token != '=') {
-            expressionPtr = tmpPtr;  // return current token
+        if (*token != '=') 
+        {
+            expressionPtr = tmpPtr; // return current token
             strcpy(token, tmpToken); // restore old token
             tokenType = VARIABLE;
-        } else {
+        }
+        else {
             getToken(); // get next part of exp
             evalAdd(result);
             vars[slot] = result;
@@ -67,46 +64,46 @@ void Parser::evalToken(double &result)
     evalAdd(result);
 }
 // Zbir
-void Parser::evalAdd(double &result)
-{
+void Parser::evalAdd(double &result){
     char op;
     double temp;
     evalMultiply(result);
-    while ((op = *token) == '+' || op == '-') {
+    while ((op = *token) == '+' || op == '-')
+    {
         getToken();
         evalMultiply(temp);
         checkOperator(result, op, temp);
     }
 }
 // Mnozenje
-void Parser::evalMultiply(double &result)
-{
+void Parser::evalMultiply(double &result){
     char op;
     double temp;
     evalPow(result);
-    while ((op = *token) == '*' || op == '/') {
+    while ((op = *token) == '*' || op == '/') 
+    {
         getToken();
         evalPow(temp);
         checkOperator(result, op, temp);
     }
 }
 // Eksponent
-void Parser::evalPow(double &result)
-{
+void Parser::evalPow(double &result){
     double temp;
     evalUnar(result);
-    while (*token == '^') {
+    while (*token == '^')
+    {
         getToken();
         evalUnar(temp);
         result = pow(result, temp);
     }
 }
 // Unarni operatori
-void Parser::evalUnar(double &result)
-{
+void Parser::evalUnar(double &result){
     char op;
     op = 0;
-    if ((tokenType == DELIMITER && *token == '+') || *token == '-') {
+    if ((tokenType == DELIMITER && *token == '+') || *token == '-')
+    {
         op = *token;
         getToken();
     }
@@ -115,15 +112,16 @@ void Parser::evalUnar(double &result)
         result = -result;
 }
 // Fja, zagrade, promenljiva
-void Parser::evalParantheses(double &result)
-{
+void Parser::evalParantheses(double &result){
     bool isfunc = (tokenType == FUNCTION);
     char tmpToken[80];
-    if (isfunc) {
+    if (isfunc)
+    {
         strcpy(tmpToken, token);
         getToken();
-    }
-    if (*token == '(') {
+    } 
+    if (*token == '(')
+    {
         getToken();
         evalAdd(result);
         if (*token != ')')
@@ -131,26 +129,27 @@ void Parser::evalParantheses(double &result)
         if (isfunc)
             evalFunc(result, tmpToken);
         getToken();
-    } else
-        switch (tokenType) {
-            case VARIABLE:
-                result = vars[*token - 'A'];
-                getToken();
-                return;
-            case NUMBER:
-                result = atof(token);
-                getToken();
-                return;
-            default:
-                strcpy(errorMessage, "Syntax Error");
+    }
+    else
+        switch (tokenType)
+        {
+        case VARIABLE:
+            result = vars[*token - 'A'];
+            getToken();
+            return;
+        case NUMBER:
+            result = atof(token);
+            getToken();
+            return;
+        default:
+            strcpy(errorMessage, "Syntax Error");
         }
 }
 
-void Parser::evalFunc(double &result, char *token)
-{
+void Parser::evalFunc(double &result, char* token){
 
     if (!strcmp(token, "SIN"))
-        // PI / 180 * result
+        //PI / 180 * result
         result = sin(result);
     else if (!strcmp(token, "COS"))
         result = cos(result);
@@ -183,7 +182,7 @@ void Parser::evalFunc(double &result, char *token)
     else if (!strcmp(token, "SQRT"))
         result = sqrt(result);
     else if (!strcmp(token, "SQR"))
-        result = result * result;
+        result = result*result;
     else if (!strcmp(token, "INT"))
         result = floor(result);
     else if (!strcmp(token, "ABS"))
@@ -196,26 +195,30 @@ void Parser::evalFunc(double &result, char *token)
         strcpy(errorMessage, "Unknown Function");
 }
 
-void Parser::getToken()
-{
+void Parser::getToken(){
     char *temp;
     tokenType = 0;
     temp = token;
     *temp = '\0';
-    if (!*expressionPtr) // at end of expression
+    if (!*expressionPtr)  // at end of expression
         return;
-    while (isspace(*expressionPtr)) // skip over white space
+    while (isspace(*expressionPtr))  // skip over white space
         ++expressionPtr;
-    if (strchr("+-*/%^=()", *expressionPtr)) {
+    if (strchr("+-*/%^=()", *expressionPtr))
+    {
         tokenType = DELIMITER;
-        *temp++ = *expressionPtr++; // advance to next char
-    } else if (isalpha(*expressionPtr)) {
+        *temp++ = *expressionPtr++;  // advance to next char
+    }
+    else if (isalpha(*expressionPtr))
+    {
         while (!strchr(" +-/*%^=()\t\r", *expressionPtr) && (*expressionPtr))
             *temp++ = toupper(*expressionPtr++);
-        while (isspace(*expressionPtr)) // skip over white space
+        while (isspace(*expressionPtr))  // skip over white space
             ++expressionPtr;
         tokenType = (*expressionPtr == '(') ? FUNCTION : VARIABLE;
-    } else if (isdigit(*expressionPtr) || *expressionPtr == '.') {
+    }
+    else if (isdigit(*expressionPtr) || *expressionPtr == '.')
+    {
         while (!strchr(" +-/*%^=()\t\r", *expressionPtr) && (*expressionPtr))
             *temp++ = toupper(*expressionPtr++);
         tokenType = NUMBER;
@@ -225,21 +228,26 @@ void Parser::getToken()
         strcpy(errorMessage, "Only first letter of variables is considered");
 }
 
-void Parser::checkOperator(double &result, char op, double temp)
-{
+void Parser::checkOperator(double &result, char op, double temp){
 
-    switch (op) {
-        case '+':
-            result = result + temp;
-            break;
-        case '-':
-            result = result - temp;
-            break;
-        case '*':
-            result = result * temp;
-            break;
-        case '/':
-            result = result / temp;
-            break;
+    switch (op)
+    {
+    case '+':
+        result = result + temp;
+        break;
+    case '-':
+        result = result - temp;
+        break;
+    case '*':
+        result = result * temp;
+        break;
+    case '/':
+        result = result / temp;
+        break;
     }
+
 }
+
+
+
+
