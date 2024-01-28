@@ -1,9 +1,9 @@
 #include "../include/matrix.hpp"
 
-#include <QStringList>
-#include <QDebug>
+ #include <QStringList>
+ #include <QDebug>
 
-#define DEBUG (qDebug() << __FILE__ << ":" << __LINE__ << ":\t")
+ #define DEBUG (qDebug() << __FILE__ << ":" << __LINE__ << ":\t")
 
 std::vector<Matrix*> Matrix::m_savedMatrices;
 
@@ -24,18 +24,15 @@ Matrix::Matrix(const Matrix &other):
 {
 
 }
-    //destruktor
-Matrix::~Matrix(){
 
-}
 
     //getteri
 //TODO kontra?
-std::pair<unsigned, unsigned> Matrix::getShape(){
-    return {this->rows(), this->columns()};
+auto Matrix::getShape(){
+    return std::pair{this->rows(), this->columns()};
 }
 
-QString Matrix::toString(){
+auto Matrix::toString(){
     //DEBUG << "m_rows: " << m_rows;
     //DEBUG << "m_cols: " << m_columns;
     QString res = "";
@@ -51,7 +48,7 @@ QString Matrix::toString(){
     return res;
 }
 
-Matrix* Matrix::getSaved(unsigned int index){
+auto Matrix::getSaved(unsigned int index){
     return m_savedMatrices[index];
 }
 
@@ -76,7 +73,7 @@ void Matrix::setValue(double value, unsigned i, unsigned j){
     (*(this->m_data))(i, j) = value;
 }
 
-unsigned Matrix::saveMatrix(){
+auto Matrix::saveMatrix(){
     Matrix* toSave = new Matrix(this->rows(), this->columns());
     arma::mat tmp = this->data();
     toSave->data(tmp);
@@ -85,21 +82,21 @@ unsigned Matrix::saveMatrix(){
 
     return m_savedMatrices.size()-1;
 }
-std::pair<unsigned, unsigned> Matrix::loadLeft(unsigned index){
+auto Matrix::loadLeft(unsigned index){
     Matrix* toLoad = m_savedMatrices[index];
     qDebug().noquote() << toLoad->toString();
     this->reshapeMatrix(toLoad->m_columns, toLoad->m_rows);
     *this = *(toLoad);
     qDebug().noquote() << this->toString();
-    return {toLoad->m_columns, toLoad->m_rows};
+    return std::pair{toLoad->m_columns, toLoad->m_rows};
 }
-std::pair<unsigned, unsigned> Matrix::loadRight(unsigned index){
+auto Matrix::loadRight(unsigned index){
     Matrix* toLoad = m_savedMatrices[index];
     qDebug().noquote() << toLoad->toString();
     this->reshapeMatrix(toLoad->m_columns, toLoad->m_rows);
     *this = *(toLoad);
     qDebug().noquote() << this->toString();
-    return {toLoad->m_columns, toLoad->m_rows};
+    return std::pair{toLoad->m_columns, toLoad->m_rows};
 }
 
 
@@ -144,7 +141,7 @@ void Matrix::switchMatrices(Matrix *m1, Matrix *m2){
 }
 
 //methods
-Matrix *Matrix::transpose() {
+auto Matrix::transpose() {
     Matrix* newMatrix = new Matrix(this->columns(), this->rows());
     arma::mat tmp = arma::trans(this->data());
     newMatrix->data(tmp);
@@ -152,7 +149,7 @@ Matrix *Matrix::transpose() {
     return newMatrix;
 }
 
-Matrix *Matrix::ones(){
+auto Matrix::ones(){
     Matrix* newMatrix = new Matrix(this->rows(), this->columns());
     arma::mat tmp = this->data().ones();
     newMatrix->data(tmp);
@@ -160,7 +157,7 @@ Matrix *Matrix::ones(){
     return newMatrix;
 }
 
-Matrix *Matrix::eye(){
+auto Matrix::eye(){
     Matrix* newMatrix = new Matrix(this->rows(), this->columns());
     arma::mat tmp = this->data().eye();
     newMatrix->data(tmp);
@@ -168,7 +165,7 @@ Matrix *Matrix::eye(){
     return newMatrix;
 }
 
-Matrix *Matrix::inverse(){
+auto Matrix::inverse(){
     Matrix* newMatrix = new Matrix(this->rows(), this->columns());
     arma::mat tmp = arma::inv(this->data());
     newMatrix->data(tmp);
@@ -176,7 +173,7 @@ Matrix *Matrix::inverse(){
     return newMatrix;
 }
 
-Matrix *Matrix::diag(){
+auto Matrix::diag(){
     Matrix* newMatrix = new Matrix(this->rows(), this->columns());
     arma::mat tmp = arma::diagmat(this->data());
     newMatrix->data(tmp);

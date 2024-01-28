@@ -12,7 +12,7 @@ Statistics::~Statistics(){
     std::cout << "Unisten statistics" << std::endl;
 }
 
-Statistics* Statistics::getStatistics(){
+auto Statistics::getStatistics(){
     if(statPtr == nullptr){
         statPtr = new Statistics();
     }

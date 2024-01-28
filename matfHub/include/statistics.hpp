@@ -18,7 +18,7 @@ public:
     //destruktor
     ~Statistics();
 
-    static Statistics* getStatistics();
+    static auto getStatistics();
 
     //metode
     auto mean() -> double;

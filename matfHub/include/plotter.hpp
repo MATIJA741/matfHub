@@ -18,7 +18,7 @@ public:
     //destruktor
     ~Plotter();
 
-    static Plotter* getPlotter();
+    static auto getPlotter();
 
     void operator()() const;
 

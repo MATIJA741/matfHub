@@ -2,14 +2,11 @@
 
 Plotter* Plotter::plotPtr = nullptr;
 
-//konstruktor
-Plotter::Plotter(){}
-
 Plotter::~Plotter(){
     std::cout << "Unisten plotter" << std::endl;
 }
 
-Plotter* Plotter::getPlotter(){
+auto Plotter::getPlotter(){
     if(plotPtr == nullptr){
         plotPtr = new Plotter();
     }

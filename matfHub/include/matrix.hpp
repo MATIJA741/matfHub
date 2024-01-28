@@ -17,13 +17,12 @@ public:
     Matrix(const unsigned rows, const unsigned columns, const QString data);
     Matrix(const Matrix &other);
     //destruktor
-    ~Matrix();
 
     //get
-    std::pair<unsigned, unsigned> getShape();
-    QString toString();
+    auto getShape();
+    auto toString();
 
-    static Matrix* getSaved(unsigned int index);
+    static auto getSaved(unsigned int index);
 
     //getters
     unsigned rows() const;
@@ -43,22 +42,22 @@ public:
 
 
     //set
-    unsigned saveMatrix();
-    std::pair<unsigned, unsigned> loadLeft(unsigned index);
-    std::pair<unsigned, unsigned> loadRight(unsigned index);
+    auto saveMatrix();
+    auto loadLeft(unsigned index);
+    auto loadRight(unsigned index);
 
     //functions
 
-    Matrix *transpose();
-    Matrix *inverse();
-    Matrix *ones();
-    Matrix *eye();
-    Matrix *diag();
+    auto transpose();
+    auto inverse();
+    auto ones();
+    auto eye();
+    auto diag();
 
     //operators
-    Matrix *operator + (const Matrix &other) const;
-    Matrix *operator - (const Matrix &other) const;
-    Matrix *operator * (const Matrix &other) const;
+    auto operator + (const Matrix &other) const;
+    auto operator - (const Matrix &other) const;
+    auto operator * (const Matrix &other) const;
 
 
     Matrix &operator = (const Matrix &other);
