@@ -904,6 +904,10 @@ void MainWindow::plotLinspace(){
 
 void MainWindow::plot(){
 
+    if(plt->xData().size() == 0){
+        ui->leError->setText("No dots to draw");
+        return;
+    }
 
     (*plt)();
     std::cerr <<"Crtanje: " << std::endl;
@@ -1007,9 +1011,12 @@ void MainWindow::plotParse(){
 
     double tmp;
     std::vector<double> xs = plt->xData();
-    if(xs.size() == 0){
-        throw std::exception();
+
+    if(plt->xData().size() == 0){
+        ui->leError->setText("No dots to draw");
+        return;
     }
+
     std::vector<double> ys = plt->xData();
 
     for (int i = 0; i < xs.size(); i++) {
