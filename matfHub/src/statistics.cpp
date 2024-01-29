@@ -22,9 +22,11 @@ Statistics* Statistics::getStatistics(){
 //metode
 auto Statistics::mean() -> double{
 
+
     auto data = this->xData();
 
     return std::accumulate(cbegin(data), cend(data), 0.0) / (data.size());
+
 }
 
 auto Statistics::variance() -> double{
