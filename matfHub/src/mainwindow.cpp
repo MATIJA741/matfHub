@@ -869,7 +869,7 @@ void MainWindow::saveMatrix(){
     QHBoxLayout* savedM = new QHBoxLayout();
     auto layout = ui->savedMatricesLayout;
     layout->addLayout(savedM);
-    QLabel* matrixName = new QLabel("#m");//TODO Mat::getSavedVectorLen.toStr
+    QLabel* matrixName = new QLabel("b 865m");//TODO Mat::getSavedVectorLen.toStr
     savedM->addWidget(matrixName);
     savedM->addWidget(loadLeft);
     savedM->addWidget(loadRight);
@@ -904,10 +904,7 @@ void MainWindow::plotLinspace(){
 
 void MainWindow::plot(){
 
-    if(plt->xData().size() == 0){
-        ui->leError->setText("No dots to draw");
-        return;
-    }
+
     (*plt)();
     std::cerr <<"Crtanje: " << std::endl;
     std::cerr << "\t" << ui->leLinspaceLB->text().toStdString() << " ";
@@ -1011,8 +1008,7 @@ void MainWindow::plotParse(){
     double tmp;
     std::vector<double> xs = plt->xData();
     if(xs.size() == 0){
-        ui->leError->setText("No dots to draw");
-        return;
+        throw std::exception();
     }
     std::vector<double> ys = plt->xData();
 
