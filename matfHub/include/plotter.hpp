@@ -5,49 +5,49 @@
 #include <iostream>
 #include <vector>
 
-#include <cmath>
-#include <numeric>
 #include <algorithm>
+#include <cmath>
 #include <matplot/matplot.h>
+#include <numeric>
 
 #include <string.h>
 
-class Plotter{
+class Plotter {
 
 public:
-    //destruktor
-    ~Plotter();
+  // destruktor
+  ~Plotter();
 
-    static Plotter* getPlotter();
+  static Plotter *getPlotter();
 
-    void operator()() const;
+  void operator()() const;
 
-    void linSpace(double lowerBound, double upperBound, size_t step);
-    void transformData(double (*func)(double));
-    void transformDataParse(double (*func1)(double, char*), double (*func2)(double, char*));
+  void linSpace(double lowerBound, double upperBound, size_t step);
+  void transformData(double (*func)(double));
+  void transformDataParse(double (*func1)(double, char *),
+                          double (*func2)(double, char *));
 
-    void savePlot();
+  void savePlot();
 
-    //setters
-    void xData(std::vector<double> &newX);
-    void yData(std::vector<double> &newY);
-    void output(std::string text);
+  // setters
+  void xData(std::vector<double> &newX);
+  void yData(std::vector<double> &newY);
+  void output(std::string text);
 
-    //getters
-    std::vector<double> xData() const;
-    std::vector<double> yData() const;
-    std::string output() const;
+  // getters
+  std::vector<double> xData() const;
+  std::vector<double> yData() const;
+  std::string output() const;
 
 private:
+  // konstruktor
+  Plotter();
+  static Plotter *plotPtr;
 
-    //konstruktor
-    Plotter();
-    static Plotter* plotPtr;
+  std::vector<double> _xData;
+  std::vector<double> _yData;
 
-    std::vector<double> _xData;
-    std::vector<double> _yData;
-
-    std::string _output;
+  std::string _output;
 };
 
 #endif
