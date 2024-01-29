@@ -1,0 +1,7 @@
+Checks: '-*, readibility-identifier-naming, modernize-*'
+CheckOptions:
+    - {key: readability-identifier-naming.ClassCase,     value: CamelCase    }
+    - {key: readability-identifier-naming.VariableCase,  value: calemBack    }   
+    - {key: readability-identifier-naming.FunctionCase,  value: calemBack    }
+    - {key: readability-identifier-naming.MemberPrefix,  value: m_           }
+    - {key: readability-identifier-naming.ParameterCase, value: camelBack    }
