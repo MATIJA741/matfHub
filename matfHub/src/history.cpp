@@ -14,7 +14,7 @@ History::~History(){
     std::cout << "History unisten" << std::endl;
 }
 
-History* History::getHistory(){
+auto History::getHistory() -> History*{
     if(historyPtr == nullptr){
         historyPtr = new History();
     }
@@ -32,7 +32,7 @@ void History::writeHistory(std::string title, std::string line){
 }
 
 
-std::string History::lastLine(){
+auto History::lastLine() -> std::string{
     auto history = this->history();
     int numOfLastLine = history.size()-1;
     return history[numOfLastLine];

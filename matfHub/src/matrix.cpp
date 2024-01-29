@@ -5,7 +5,7 @@
 
 #define DEBUG (qDebug() << __FILE__ << ":" << __LINE__ << ":\t")
 
-std::vector<Matrix*> Matrix::m_savedMatrices;
+std::vector<Matrix*> Matrix::mSavedMatrices;
 
 
 //konstruktori
@@ -19,19 +19,14 @@ Matrix::Matrix(const unsigned rows, const unsigned columns, const QString data):
 {
     m_data = new arma::mat(rows, columns);
 }
-Matrix::Matrix(const Matrix &other):
-    m_rows(other.m_rows), m_columns(other.m_columns), m_data(other.m_data)
-{
-
-}
+Matrix::Matrix(const Matrix &other) 
+= default;
     //destruktor
-Matrix::~Matrix(){
-
-}
+Matrix::~Matrix()= default;
 
     //getteri
 //TODO kontra?
-std::pair<unsigned, unsigned> Matrix::getShape(){
+auto Matrix::getShape() -> std::pair<unsigned, unsigned>{
     return {this->rows(), this->columns()};
 }
 
@@ -51,7 +46,7 @@ QString Matrix::toString(){
     return res;
 }
 
-Matrix* Matrix::getSaved(unsigned int index){
+auto Matrix::getSaved(unsigned int index) -> Matrix*{
     return m_savedMatrices[index];
 }
 
@@ -76,8 +71,8 @@ void Matrix::setValue(double value, unsigned i, unsigned j){
     (*(this->m_data))(i, j) = value;
 }
 
-unsigned Matrix::saveMatrix(){
-    Matrix* toSave = new Matrix(this->rows(), this->columns());
+auto Matrix::saveMatrix() -> unsigned{
+    auto* toSave = new Matrix(this->rows(), this->columns());
     arma::mat tmp = this->data();
     toSave->data(tmp);
     qDebug().noquote() << toSave->toString();
@@ -85,7 +80,7 @@ unsigned Matrix::saveMatrix(){
 
     return m_savedMatrices.size()-1;
 }
-std::pair<unsigned, unsigned> Matrix::loadLeft(unsigned index){
+auto Matrix::loadLeft(unsigned index) -> std::pair<unsigned, unsigned>{
     Matrix* toLoad = m_savedMatrices[index];
     qDebug().noquote() << toLoad->toString();
     this->reshapeMatrix(toLoad->m_columns, toLoad->m_rows);
@@ -93,7 +88,7 @@ std::pair<unsigned, unsigned> Matrix::loadLeft(unsigned index){
     qDebug().noquote() << this->toString();
     return {toLoad->m_columns, toLoad->m_rows};
 }
-std::pair<unsigned, unsigned> Matrix::loadRight(unsigned index){
+auto Matrix::loadRight(unsigned index) -> std::pair<unsigned, unsigned>{
     Matrix* toLoad = m_savedMatrices[index];
     qDebug().noquote() << toLoad->toString();
     this->reshapeMatrix(toLoad->m_columns, toLoad->m_rows);
@@ -144,40 +139,40 @@ void Matrix::switchMatrices(Matrix *m1, Matrix *m2){
 }
 
 //methods
-Matrix *Matrix::transpose() {
-    Matrix* newMatrix = new Matrix(this->columns(), this->rows());
+auto Matrix::transpose() -> Matrix * {
+    auto* newMatrix = new Matrix(this->columns(), this->rows());
     arma::mat tmp = arma::trans(this->data());
     newMatrix->data(tmp);
 
     return newMatrix;
 }
 
-Matrix *Matrix::ones(){
-    Matrix* newMatrix = new Matrix(this->rows(), this->columns());
+auto Matrix::ones() -> Matrix *{
+    auto* newMatrix = new Matrix(this->rows(), this->columns());
     arma::mat tmp = this->data().ones();
     newMatrix->data(tmp);
 
     return newMatrix;
 }
 
-Matrix *Matrix::eye(){
-    Matrix* newMatrix = new Matrix(this->rows(), this->columns());
+auto Matrix::eye() -> Matrix *{
+    auto* newMatrix = new Matrix(this->rows(), this->columns());
     arma::mat tmp = this->data().eye();
     newMatrix->data(tmp);
 
     return newMatrix;
 }
 
-Matrix *Matrix::inverse(){
-    Matrix* newMatrix = new Matrix(this->rows(), this->columns());
+auto Matrix::inverse() -> Matrix *{
+    auto* newMatrix = new Matrix(this->rows(), this->columns());
     arma::mat tmp = arma::inv(this->data());
     newMatrix->data(tmp);
 
     return newMatrix;
 }
 
-Matrix *Matrix::diag(){
-    Matrix* newMatrix = new Matrix(this->rows(), this->columns());
+auto Matrix::diag() -> Matrix *{
+    auto* newMatrix = new Matrix(this->rows(), this->columns());
     arma::mat tmp = arma::diagmat(this->data());
     newMatrix->data(tmp);
 
@@ -185,9 +180,9 @@ Matrix *Matrix::diag(){
 }
 
 //operators
-Matrix* Matrix::operator + (const Matrix &other) const{
+auto Matrix::operator + (const Matrix &other) const -> Matrix*{
 
-    Matrix* newMat = new Matrix(this->rows(), this->columns());
+    auto* newMat = new Matrix(this->rows(), this->columns());
     arma::mat *newData = new arma::mat(this->rows(), this->columns());
 
     *newData = this->data() + other.data();
@@ -196,9 +191,9 @@ Matrix* Matrix::operator + (const Matrix &other) const{
     return newMat;
 }
 
-Matrix* Matrix::operator - (const Matrix &other) const{
+auto Matrix::operator - (const Matrix &other) const -> Matrix*{
 
-    Matrix* newMat = new Matrix(this->rows(), this->columns());
+    auto* newMat = new Matrix(this->rows(), this->columns());
     arma::mat *newData = new arma::mat(this->rows(), this->columns());
 
     *newData = this->data() - other.data();
@@ -207,9 +202,9 @@ Matrix* Matrix::operator - (const Matrix &other) const{
     return newMat;
 }
 
-Matrix* Matrix::operator * (const Matrix &other) const{
+auto Matrix::operator * (const Matrix &other) const -> Matrix*{
 
-    Matrix* newMat = new Matrix(this->rows(), other.columns());
+    auto* newMat = new Matrix(this->rows(), other.columns());
     arma::mat *newData = new arma::mat(this->rows(), other.columns());
 
     *newData = this->data() * other.data();
@@ -219,7 +214,7 @@ Matrix* Matrix::operator * (const Matrix &other) const{
 }
 
 
-Matrix &Matrix::operator = (const Matrix &other) {
+auto Matrix::operator = (const Matrix &other) -> Matrix & {
 
     this->columns(other.columns());
     this->rows(other.rows());
@@ -232,15 +227,15 @@ Matrix &Matrix::operator = (const Matrix &other) {
 
 
 //getters
-unsigned Matrix::rows() const{
+auto Matrix::rows() const -> unsigned{
     return this->m_rows;
 }
 
-unsigned Matrix::columns() const{
+auto Matrix::columns() const -> unsigned{
     return this->m_columns;
 }
 
-arma::mat Matrix::data() const{
+auto Matrix::data() const -> arma::mat{
     return *m_data;
 }
 

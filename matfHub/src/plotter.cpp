@@ -3,13 +3,13 @@
 Plotter* Plotter::plotPtr = nullptr;
 
 //konstruktor
-Plotter::Plotter(){}
+Plotter::Plotter()= default;
 
 Plotter::~Plotter(){
     std::cout << "Unisten plotter" << std::endl;
 }
 
-Plotter* Plotter::getPlotter(){
+auto Plotter::getPlotter() -> Plotter*{
     if(plotPtr == nullptr){
         plotPtr = new Plotter();
     }
@@ -73,6 +73,6 @@ std::vector<double> Plotter::yData() const {
     return this->_yData;
 }
 
-std::string Plotter::output() const{
+auto Plotter::output() const -> std::string{
     return this->_output;
 }

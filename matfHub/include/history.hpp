@@ -10,17 +10,17 @@ class History
 public:
     ~History();
 
-    static History* getHistory();
+    static auto getHistory() -> History*;
     //
     void writeHistory(std::string title, std::string line);
-    std::string lastLine();
+    auto lastLine() -> std::string;
     void editLastLine(std::string line);
     
     void addMatrix(Matrix *m);
     void saveHistory();
 
     //
-    std::vector<std::string> history() const;
+    [[nodiscard]] std::vector<std::string> history() const;
 
     void history(std::vector<std::string> &newHistory);
 

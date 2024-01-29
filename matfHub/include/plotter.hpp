@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <matplot/matplot.h>
 
-#include <string.h>
+#include <cstring>
 
 class Plotter{
 
@@ -18,7 +18,7 @@ public:
     //destruktor
     ~Plotter();
 
-    static Plotter* getPlotter();
+    static auto getPlotter() -> Plotter*;
 
     void operator()() const;
 
@@ -34,9 +34,9 @@ public:
     void output(std::string text);
 
     //getters
-    std::vector<double> xData() const;
-    std::vector<double> yData() const;
-    std::string output() const;
+    [[nodiscard]] std::vector<double> xData() const;
+    [[nodiscard]] std::vector<double> yData() const;
+    [[nodiscard]] auto output() const -> std::string;
 
 private:
 

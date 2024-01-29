@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <vector>
-#include <string.h>
+#include <cstring>
 class Parser{
 
 #define NUMVARS 26

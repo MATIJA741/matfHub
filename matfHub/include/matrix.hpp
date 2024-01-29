@@ -20,15 +20,15 @@ public:
     ~Matrix();
 
     //get
-    std::pair<unsigned, unsigned> getShape();
+    auto getShape() -> std::pair<unsigned, unsigned>;
     QString toString();
 
-    static Matrix* getSaved(unsigned int index);
+    static auto getSaved(unsigned int index) -> Matrix*;
 
     //getters
-    unsigned rows() const;
-    unsigned columns() const;
-    arma::mat data() const;
+    [[nodiscard]] auto rows() const -> unsigned;
+    [[nodiscard]] auto columns() const -> unsigned;
+    [[nodiscard]] auto data() const -> arma::mat;
 
     //setters
     void rows(unsigned u);
@@ -43,25 +43,25 @@ public:
 
 
     //set
-    unsigned saveMatrix();
-    std::pair<unsigned, unsigned> loadLeft(unsigned index);
-    std::pair<unsigned, unsigned> loadRight(unsigned index);
+    auto saveMatrix() -> unsigned;
+    auto loadLeft(unsigned index) -> std::pair<unsigned, unsigned>;
+    auto loadRight(unsigned index) -> std::pair<unsigned, unsigned>;
 
     //functions
 
-    Matrix *transpose();
-    Matrix *inverse();
-    Matrix *ones();
-    Matrix *eye();
-    Matrix *diag();
+    auto transpose() -> Matrix *;
+    auto inverse() -> Matrix *;
+    auto ones() -> Matrix *;
+    auto eye() -> Matrix *;
+    auto diag() -> Matrix *;
 
     //operators
-    Matrix *operator + (const Matrix &other) const;
-    Matrix *operator - (const Matrix &other) const;
-    Matrix *operator * (const Matrix &other) const;
+    auto operator + (const Matrix &other) const -> Matrix *;
+    auto operator - (const Matrix &other) const -> Matrix *;
+    auto operator * (const Matrix &other) const -> Matrix *;
 
 
-    Matrix &operator = (const Matrix &other);
+    auto operator = (const Matrix &other) -> Matrix &;
 
     
 private:
@@ -75,6 +75,6 @@ private:
 
 };
 
-std::ostream &operator<<(std::ostream &out, const Matrix *value);
+auto operator<<(std::ostream &out, const Matrix *value) -> std::ostream &;
 
 #endif //MATRIX_HPP
