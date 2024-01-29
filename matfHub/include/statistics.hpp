@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 
 #include <cmath>
 #include <map>
@@ -11,41 +12,38 @@
 
 #include <matplot/matplot.h>
 
-class Statistics{
-
-public:
-
-    //destruktor
+class Statistics {
+ public:
+    // destruktor
     ~Statistics();
 
     static Statistics* getStatistics();
 
-    //metode
+    // metode
     auto mean() -> double;
     auto variance() -> double;
     auto std() -> double;
     auto median() -> double;
     auto mode() -> double;
-    
+
     void boxplot();
     void barplot();
     void histogram();
 
-    //setters
+    // setters
     void xData(const std::vector<double> &newX);
     void textData(const std::vector<std::string> &newTextData);
 
-    //getters
+    // getters
     std::vector<double> xData() const;
     std::vector<std::string> textData() const;
 
-private:
-
-    Statistics(std::vector<double> const &xData = std::vector<double>());
+ private:
+    explicit Statistics(std::vector<double> const &xData = std::vector<double>());
     static Statistics* statPtr;
 
     std::vector<double> _xData;
     std::vector<std::string> _textData;
 };
 
-#endif // STATISTICS_HPP
+#endif   // STATISTICS_HPP

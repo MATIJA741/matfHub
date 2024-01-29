@@ -10,12 +10,11 @@
 #include <algorithm>
 #include <matplot/matplot.h>
 
-#include <string.h>
+#include <string>
 
-class Plotter{
-
-public:
-    //destruktor
+class Plotter {
+ public:
+    // destruktor
     ~Plotter();
 
     static Plotter* getPlotter();
@@ -28,19 +27,18 @@ public:
 
     void savePlot();
 
-    //setters
+    // setters
     void xData(std::vector<double> &newX);
     void yData(std::vector<double> &newY);
     void output(std::string text);
 
-    //getters
+    // getters
     std::vector<double> xData() const;
     std::vector<double> yData() const;
     std::string output() const;
 
-private:
-
-    //konstruktor
+ private:
+    // konstruktor
     Plotter();
     static Plotter* plotPtr;
 

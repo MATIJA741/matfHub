@@ -3,20 +3,17 @@
 #include <iostream>
 #include <vector>
 #include <string.h>
-class Parser{
 
+class Parser {
 #define NUMVARS 26
 
-public:
-
+ public:
     Parser();
     ~Parser();
     auto evalExpression(char *exp) -> double;
     char errorMessage[64];
-    
 
-protected:
-
+ protected:
     void evalToken(double &result);
     void evalAdd(double &result);
     void evalMultiply(double &result);
@@ -28,11 +25,8 @@ protected:
 
     void checkOperator(double &result, char op, double temp);
 
-
-    char *expressionPtr; // points to the expression
-    char token[256]; // holds current token
-    char tokenType; // holds token's type
-    double *vars; // holds variable's values
-
-
+    char *expressionPtr;   // points to the expression
+    char token[256];   // holds current token
+    char tokenType;   // holds token's type
+    double *vars;   // holds variable's values
 };
