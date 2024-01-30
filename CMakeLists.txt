@@ -37,27 +37,15 @@ file(GLOB PROJECT_SOURCES
     "matfHub/src/*.cpp"
     "matfHub/include/*.hpp"
     "matfHub/include/*.h"
-	"matfHub/*.ui"
-        "matfHub/dependencies/*.cpp"
-        "matfHub/dependencies/*.h"
+    "matfHub/*.ui"
+    "matfHub/dependencies/*.cpp"
+    "matfHub/dependencies/*.h"
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(matfHub
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        matfHub/include/notes.h
-        matfHub/src/notes.cpp
-        matfHub/resources.qrc
-        matfHub/src/schedulegenerator.cpp
-        matfHub/include/schedulegenerator.h
-        matfHub/include/helpers.h
-        matfHub/include/calendar.h
-        matfHub/src/calendar.cpp
-        matfHub/include/config.hpp
-        matfHub/include/views.h
-        matfHub/src/config.cpp
-        matfHub/src/views.cpp
     )
 
 # Specify the path to your .sh file
