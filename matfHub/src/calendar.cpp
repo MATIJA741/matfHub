@@ -22,7 +22,7 @@ Calendar::Calendar(Ui::MainWindow* ui) {
     ui->dateEdit->QDateEdit::setDate(selectedDate);
 
     for (auto itemStr : date_to_note[selectedDate]){
-        QListWidgetItem* item = new QListWidgetItem(itemStr, ui->listWidget);
+        auto *item = new QListWidgetItem(itemStr, ui->listWidget);
         item->setFlags(item->flags() | Qt::ItemIsEditable);
     }
 }
@@ -43,7 +43,7 @@ void Calendar::dateChanged(Ui::MainWindow *ui, QDate date) {
     date_to_note[selectedDate].sort();
     for (auto itemStr : date_to_note[selectedDate]){
         if(itemStr != ""){
-            QListWidgetItem* item = new QListWidgetItem(itemStr, ui->listWidget);
+            auto *item = new QListWidgetItem(itemStr, ui->listWidget);
             item->setFlags(item->flags() | Qt::ItemIsEditable);
         }
     }
@@ -63,7 +63,7 @@ void Calendar::taskAdded(Ui::MainWindow *ui){
 
     for (auto itemStr : date_to_note[selectedDate]){
         if(itemStr != ""){
-            QListWidgetItem* item = new QListWidgetItem(itemStr, ui->listWidget);
+            auto *item = new QListWidgetItem(itemStr, ui->listWidget);
             item->setFlags(item->flags() | Qt::ItemIsEditable);
         }
     }
@@ -115,15 +115,15 @@ void Calendar::saveHistory(){
     file.close();
 }
 
-void Calendar::addCourse(QDate next_d, QString desc){
-        if(date_to_note[next_d].empty()){
+void Calendar::addCourse(QDate nextD, QString desc)
+{
+    if (date_to_note[nextD].empty()) {
         QList<QString> note = {desc};
-            date_to_note.insert(next_d, note);
+        date_to_note.insert(nextD, note);
 
-        }else {
-            date_to_note[next_d].append(desc);
-        }
-
+    } else {
+        date_to_note[nextD].append(desc);
+    }
 }
 
 void Calendar::initializeClassMap(){
