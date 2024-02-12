@@ -6,7 +6,6 @@
 #include <vector>
 
 #include <QString>
-
 #include <armadillo>
 
 class Matrix{
