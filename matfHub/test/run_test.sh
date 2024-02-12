@@ -1,41 +1,38 @@
-#!/bin/bash
+display_options() {
+    echo "Izaberite opciju za testiranje:"
+    echo "1. Pokreni jedinicne testove za statistics"
+    echo "2. Pokreni jedinicne testove za parser"
+    echo "3. Pokreni jedinicne testove za matrix"
+    echo "4. Pokreni jedinicne testove za plotter"
+}
 
-echo -ne "choose option:\\n\\tstsatistics: stat \\n\\tparser: parse \\n\\tplotter: plot \\n\\tmatrix: matrix \\n"
-read OPT
+# Funkcija za izvrsavanje odabrane opcije
+execute_option() {
+    case $1 in
+        1)
+            echo "Pokrecu se testovi za statistics"
+            ./scripts/run_stat_test.sh
+            ;;
+        2)
+            echo "Pokrecu se testovi za parser"
+            ./scripts/run_parser_test.sh
+            ;;
+        3)
+            echo "Pokrecu se testovi za matrix"
+            ./scripts/run_matrix_test.sh
+            ;;
+        4)
+            echo "Pokrecu se testovi za plotter"
+            ./scripts/run_plotter_test.sh
+            ;;
+        *)
+            echo "Nepostojeca opcija."
+            exit 1
+            ;;
+    esac
+}
 
-if [[ $OPT != "stat" && $OPT != "parse" && $OPT != "plot" && $OPT != "matrix" ]]
-then
-    echo "Wrong input"
-    echo "Exiting..."
-fi
+display_options
+read -p "Izaberite opciju: " choice
 
-# 
-if [[ $OPT == "stat" ]]
-then
-    echo "Running statistics class test"
-    ./scripts/run_stat_test.sh
-elif [[ $OPT == "parse" ]]
-then
-    echo "Running parser class test"
-    ./scripts/run_parser_test.sh
-elif [[ $OPT == "matrix" ]]
-then
-    echo "Running matrix class test"
-    ./scripts/run_matrix_test.sh
-elif [[ $OPT == "plot" ]]
-then
-    echo "Running plotter class test"
-    ./scripts/run_plotter_test.sh
-fi
-
-# test -d Catch2
-# build_check=$?
-# if [[ build_check -eq 1 ]]
-# then
-#     echo "Catch2 directory not found"
-#     echo "Fetching Catch2 from git..."
-
-#     git clone https://github.com/catchorg/Catch2.git
-#     cd Catch2
-#     git reset --hard 182c910b4b63ff587a3440e08f84f70497e49a81
-# fi
+execute_option $choice
