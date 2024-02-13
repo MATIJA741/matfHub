@@ -21,7 +21,7 @@ Calendar::Calendar(Ui::MainWindow* ui) {
 
     ui->dateEdit->QDateEdit::setDate(selectedDate);
 
-    for (auto itemStr : date_to_note[selectedDate]){
+    for (const auto &itemStr : date_to_note[selectedDate]) {
         auto *item = new QListWidgetItem(itemStr, ui->listWidget);
         item->setFlags(item->flags() | Qt::ItemIsEditable);
     }
@@ -34,14 +34,14 @@ void Calendar::dateChanged(Ui::MainWindow *ui, QDate date) {
     ui->listWidget->clear();
 
     if(!day_to_class[selectedDate.dayOfWeek()].empty()){
-        for(QString it : day_to_class[selectedDate.dayOfWeek()]){
+        for (const QString &it : day_to_class[selectedDate.dayOfWeek()]) {
             if(date_to_note[selectedDate].contains(it))
                 continue;
             else date_to_note[selectedDate].append(it);
         }
     }
     date_to_note[selectedDate].sort();
-    for (auto itemStr : date_to_note[selectedDate]){
+    for (const auto &itemStr : date_to_note[selectedDate]) {
         if(itemStr != ""){
             auto *item = new QListWidgetItem(itemStr, ui->listWidget);
             item->setFlags(item->flags() | Qt::ItemIsEditable);
@@ -61,7 +61,7 @@ void Calendar::taskAdded(Ui::MainWindow *ui){
 
     ui->listWidget->clear();
 
-    for (auto itemStr : date_to_note[selectedDate]){
+    for (const auto &itemStr : date_to_note[selectedDate]) {
         if(itemStr != ""){
             auto *item = new QListWidgetItem(itemStr, ui->listWidget);
             item->setFlags(item->flags() | Qt::ItemIsEditable);
@@ -130,7 +130,7 @@ void Calendar::initializeClassMap(){
 
     for(auto date: date_to_note.keys()){
         if(!day_to_class[date.dayOfWeek()].empty()){
-            for(auto course : day_to_class[date.dayOfWeek()]){
+            for (const auto &course : day_to_class[date.dayOfWeek()]) {
                 if(date_to_note[date].contains(course))
                     date_to_note[date].removeOne(course);
             }
