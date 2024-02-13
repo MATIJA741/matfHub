@@ -1,22 +1,22 @@
+// Copyright 2024 MATF studenti
 #include "../include/calendar.h"
 #include "../ui_mainwindow.h"
 #include "../include/config.hpp"
-#include "qjsonarray.h"
-#include "qjsondocument.h"
-#include "qjsonobject.h"
+#include "../../../../Qt/6.7.0/gcc_64/include/QtCore/qjsonarray.h"
+#include "../../../../Qt/6.7.0/gcc_64/include/QtCore/qjsondocument.h"
+#include "../../../../Qt/6.7.0/gcc_64/include/QtCore/qjsonobject.h"
 
-#include <QFile>
-#include <QDateEdit>
-#include <QDate>
-
-#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
-#define DEBUG (qDebug() << __FILENAME__ << ":" << __LINE__ << ":\t")
+#define __FILENAME__ \
+(strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+#define DEBUG \
+(qDebug() << __FILENAME__ << ":" << __LINE__ << ":\t")
 
 Calendar::Calendar(Ui::MainWindow* ui) {
     initializeMap();
     initializeClassMap();
     ui->calendarWidget->setSelectedDate(selectedDate);
-    ui->calendarWidget->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
+    ui->calendarWidget->setVerticalHeaderFormat(
+        QCalendarWidget::NoVerticalHeader);
     ui->calendarWidget->setFirstDayOfWeek(Qt::DayOfWeek::Monday);
 
     ui->dateEdit->QDateEdit::setDate(selectedDate);
@@ -33,36 +33,38 @@ void Calendar::dateChanged(Ui::MainWindow *ui, QDate date) {
     ui->calendarWidget->setSelectedDate(date);
     ui->listWidget->clear();
 
-    if(!day_to_class[selectedDate.dayOfWeek()].empty()){
+    if (!day_to_class[selectedDate.dayOfWeek()].empty()) {
         for (const QString &it : day_to_class[selectedDate.dayOfWeek()]) {
-            if(date_to_note[selectedDate].contains(it))
+            if (date_to_note[selectedDate].contains(it))
                 continue;
-            else date_to_note[selectedDate].append(it);
+            else
+                date_to_note[selectedDate].append(it);
         }
     }
     date_to_note[selectedDate].sort();
     for (const auto &itemStr : date_to_note[selectedDate]) {
-        if(itemStr != ""){
+        if (itemStr != "") {
             auto *item = new QListWidgetItem(itemStr, ui->listWidget);
             item->setFlags(item->flags() | Qt::ItemIsEditable);
         }
     }
 }
 
-void Calendar::taskAdded(Ui::MainWindow *ui){
-
-    if(ui->dateEdit->date() != selectedDate){
+void Calendar::taskAdded(Ui::MainWindow *ui) {
+    if (ui->dateEdit->date() != selectedDate) {
         dateChanged(ui, ui->dateEdit->date());
     }
 
-    QString itemString = ui->timeEdit->time().toString("HH:mm") + " " + ui->newItemEdit->toPlainText();
+    QString itemString = ui->timeEdit->
+                            time().toString("HH:mm") + " "
+                            + ui->newItemEdit->toPlainText();
     date_to_note[selectedDate].append(itemString);
     date_to_note[selectedDate].sort();
 
     ui->listWidget->clear();
 
     for (const auto &itemStr : date_to_note[selectedDate]) {
-        if(itemStr != ""){
+        if (itemStr != "") {
             auto *item = new QListWidgetItem(itemStr, ui->listWidget);
             item->setFlags(item->flags() | Qt::ItemIsEditable);
         }
@@ -72,24 +74,23 @@ void Calendar::taskAdded(Ui::MainWindow *ui){
     ui->newItemEdit->setFocus();
 }
 
-void Calendar::removeTask(Ui::MainWindow *ui){
-
-    if(ui->listWidget->currentItem()){
+void Calendar::removeTask(Ui::MainWindow *ui) {
+    if (ui->listWidget->currentItem()) {
         QString itemString = ui->listWidget->currentItem()->text();
         date_to_note[selectedDate].removeOne(itemString);
-        QListWidgetItem* item = ui->listWidget->takeItem(ui->listWidget->currentRow());
+        QListWidgetItem* item = ui->listWidget->
+                                takeItem(ui->listWidget->currentRow());
         delete item;
     }
-
 }
 
-void Calendar::removeAll(Ui::MainWindow *ui){
+void Calendar::removeAll(Ui::MainWindow *ui) {
     ui->listWidget->clear();
     date_to_note[selectedDate].clear();
 }
 
 // Cuvamo mapu u JSON formatu pri izlasku iz aplikacije
-void Calendar::saveHistory(){
+void Calendar::saveHistory() {
     QString fileName = Config::getConfig()->getConfigPath() + "/map.txt";
 
     QFile file(fileName);
@@ -115,8 +116,7 @@ void Calendar::saveHistory(){
     file.close();
 }
 
-void Calendar::addCourse(QDate nextD, QString desc)
-{
+void Calendar::addCourse(QDate nextD, QString desc) {
     if (date_to_note[nextD].empty()) {
         QList<QString> note = {desc};
         date_to_note.insert(nextD, note);
@@ -126,20 +126,18 @@ void Calendar::addCourse(QDate nextD, QString desc)
     }
 }
 
-void Calendar::initializeClassMap(){
-
-    for(auto date: date_to_note.keys()){
-        if(!day_to_class[date.dayOfWeek()].empty()){
+void Calendar::initializeClassMap() {
+    for (auto date : date_to_note.keys()) {
+        if (!day_to_class[date.dayOfWeek()].empty()) {
             for (const auto &course : day_to_class[date.dayOfWeek()]) {
-                if(date_to_note[date].contains(course))
+                if (date_to_note[date].contains(course))
                     date_to_note[date].removeOne(course);
             }
         }
     }
 
-    if(!day_to_class.isEmpty()){
+    if (!day_to_class.isEmpty())
         day_to_class.clear();
-    }
 
     QFile schedulePath(Config::getConfig()->getConfigPath() + "/raspored.json");
 
@@ -173,22 +171,25 @@ void Calendar::initializeClassMap(){
         int d = courseObject["day"].toInt()+1;
 
         QString startStr = "";
-        if(start < 10){
+        if (start < 10)
             startStr = "0";
-        }
+
         startStr += QString::number(start);
 
-        QString itemStr = startStr + ":15 - " + QString::number(start+dur) + ":00 " + desc + ", " + teacher + " - " + courseType + ", " + classroom;
+        QString itemStr = startStr + ":15 - "
+                          + QString::number(start+dur)
+                          + ":00 " + desc + ", " + teacher
+                          + " - " + courseType + ", " + classroom;
 
-        if(day_to_class[d].empty()){ //ovo je problem
+        if (day_to_class[d].empty())   // ovo je problem
             day_to_class[d] = {};
-        }
-        if(!day_to_class[d].contains(itemStr))
+
+        if (!day_to_class[d].contains(itemStr))
             day_to_class[d].append(itemStr);
     }
 }
 
-void Calendar::initializeMap(){
+void Calendar::initializeMap() {
     QFile jsonFile(Config::getConfig()->getConfigPath() + "/map.txt");
 
     if (!jsonFile.open(QIODevice::ReadOnly)) {
@@ -207,7 +208,8 @@ void Calendar::initializeMap(){
 
     for (auto it = jsonObject.begin(); it != jsonObject.end(); ++it) {
         QString dateString = it.key();
-        QDate date = QDate::fromString(dateString, "yyyy-MM-dd"); // Parse string back to QDate
+        // Parse string back to QDate
+        QDate date = QDate::fromString(dateString, "yyyy-MM-dd");
         QList<QString> note = it.value().toString().split("\n");
         date_to_note.insert(date, note);
     }

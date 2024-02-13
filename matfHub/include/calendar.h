@@ -4,6 +4,11 @@
 #include <QString>
 #include <QDateTime>
 
+#include <QFile>
+#include <QDateEdit>
+#include <QDate>
+
+
 #include "../ui_mainwindow.h"
 
 class Calendar
