@@ -43,6 +43,17 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    setWindowTitle("matfHUB");
+    connect(ui->tabWidgetMatfHub, &QTabWidget::currentChanged, this, [=](){
+        setWindowTitle("matfHUB");
+        if(ui->tabWidgetMatfHub->currentWidget() == ui->NotesTab){
+            if(QString::compare("", m_notes->m_currentFile)){
+                setWindowTitle(m_notes->m_currentFile);
+            }
+        }
+    });
+
     schedule = std::make_unique<Schedule>();
 
     m_fileManager = new FileManager(this);
@@ -1085,7 +1096,7 @@ void MainWindow::statCalcStd(){
 }
 
 void MainWindow::statCalcMedian(){
-    
+
     auto input = ui->leStat->text().toStdString();
 
     if(input.size() == 0){
@@ -1124,7 +1135,7 @@ void MainWindow::statPlotHist(){
     }
 
     stat->xData(cppSplit(input));
-    
+
     stat->histogram();
 
     history->writeHistory("Histogram", input);

@@ -1,0 +1,9 @@
+/home/banana/Desktop/matfHub/matfHub/src/../include/notes.h:4:10: error: 'QString' file not found [clang-diagnostic-error]
+#include <QString>
+         ^
+/home/banana/Desktop/matfHub/matfHub/src/notes.cpp:15:11: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+    QFile file(fileName);
+          ^
+/home/banana/Desktop/matfHub/matfHub/src/notes.cpp:129:15: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+        QFile file(m_currentFile);
+              ^

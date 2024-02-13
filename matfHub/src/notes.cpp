@@ -8,6 +8,7 @@
 Notes::Notes(Ui::MainWindow* mw)
     :m_mw(mw)
 {
+    m_fileContentUnchanged = new QString("");
 }
 
 void Notes::openFile(QString fileName, Ui::MainWindow *ui, QWidget *parent) {
@@ -53,31 +54,31 @@ void Notes::newClicked(Ui::MainWindow *ui, QWidget *parent){
 void Notes::changeLanguage(QString fileName, Ui::MainWindow *ui){
 
     std::map<QString,  QSourceHighlite::QSourceHighliter::Language> extToLanguageMap = {
-        { ".cpp",  QSourceHighlite::QSourceHighliter::Language::CodeCpp },
-        { ".hpp", QSourceHighlite::QSourceHighliter::Language::CodeCpp },
-        { ".js", QSourceHighlite::QSourceHighliter::Language::CodeJs },
-        { ".c", QSourceHighlite::QSourceHighliter::Language::CodeC },
-        { ".h", QSourceHighlite::QSourceHighliter::Language::CodeC },
-        { ".php", QSourceHighlite::QSourceHighliter::Language::CodePHP },
-        { ".qml", QSourceHighlite::QSourceHighliter::Language::CodeQML },
-        { ".py", QSourceHighlite::QSourceHighliter::Language::CodePython },
-        { ".rs", QSourceHighlite::QSourceHighliter::Language::CodeRust },
-        { ".java", QSourceHighlite::QSourceHighliter::Language::CodeJava },
-        { ".class", QSourceHighlite::QSourceHighliter::Language::CodeJava},
-        { ".cs", QSourceHighlite::QSourceHighliter::Language::CodeCSharp },
-        { ".go", QSourceHighlite::QSourceHighliter::Language::CodeGo },
-        { ".sql", QSourceHighlite::QSourceHighliter::Language::CodeSQL },
-        { ".json", QSourceHighlite::QSourceHighliter::Language::CodeJSON },
-        { ".xml", QSourceHighlite::QSourceHighliter::Language::CodeXML },
-        { ".html", QSourceHighlite::QSourceHighliter::Language::CodeXML },
-        { ".css", QSourceHighlite::QSourceHighliter::Language::CodeCSS },
-        { ".ts", QSourceHighlite::QSourceHighliter::Language::CodeTypeScript },
-        { ".yaml", QSourceHighlite::QSourceHighliter::Language::CodeYAML },
-        { ".ini", QSourceHighlite::QSourceHighliter::Language::CodeINI },
-        { ".vex", QSourceHighlite::QSourceHighliter::Language::CodeVex },
-        { ".s", QSourceHighlite::QSourceHighliter::Language::CodeAsm },
-        { ".lua", QSourceHighlite::QSourceHighliter::Language::CodeLua },
-    };
+                                                                                       { ".cpp",  QSourceHighlite::QSourceHighliter::Language::CodeCpp },
+                                                                                       { ".hpp", QSourceHighlite::QSourceHighliter::Language::CodeCpp },
+                                                                                       { ".js", QSourceHighlite::QSourceHighliter::Language::CodeJs },
+                                                                                       { ".c", QSourceHighlite::QSourceHighliter::Language::CodeC },
+                                                                                       { ".h", QSourceHighlite::QSourceHighliter::Language::CodeC },
+                                                                                       { ".php", QSourceHighlite::QSourceHighliter::Language::CodePHP },
+                                                                                       { ".qml", QSourceHighlite::QSourceHighliter::Language::CodeQML },
+                                                                                       { ".py", QSourceHighlite::QSourceHighliter::Language::CodePython },
+                                                                                       { ".rs", QSourceHighlite::QSourceHighliter::Language::CodeRust },
+                                                                                       { ".java", QSourceHighlite::QSourceHighliter::Language::CodeJava },
+                                                                                       { ".class", QSourceHighlite::QSourceHighliter::Language::CodeJava},
+                                                                                       { ".cs", QSourceHighlite::QSourceHighliter::Language::CodeCSharp },
+                                                                                       { ".go", QSourceHighlite::QSourceHighliter::Language::CodeGo },
+                                                                                       { ".sql", QSourceHighlite::QSourceHighliter::Language::CodeSQL },
+                                                                                       { ".json", QSourceHighlite::QSourceHighliter::Language::CodeJSON },
+                                                                                       { ".xml", QSourceHighlite::QSourceHighliter::Language::CodeXML },
+                                                                                       { ".html", QSourceHighlite::QSourceHighliter::Language::CodeXML },
+                                                                                       { ".css", QSourceHighlite::QSourceHighliter::Language::CodeCSS },
+                                                                                       { ".ts", QSourceHighlite::QSourceHighliter::Language::CodeTypeScript },
+                                                                                       { ".yaml", QSourceHighlite::QSourceHighliter::Language::CodeYAML },
+                                                                                       { ".ini", QSourceHighlite::QSourceHighliter::Language::CodeINI },
+                                                                                       { ".vex", QSourceHighlite::QSourceHighliter::Language::CodeVex },
+                                                                                       { ".s", QSourceHighlite::QSourceHighliter::Language::CodeAsm },
+                                                                                       { ".lua", QSourceHighlite::QSourceHighliter::Language::CodeLua },
+                                                                                       };
 
     QString extension = fileName.right(fileName.length() - fileName.lastIndexOf("."));
 
