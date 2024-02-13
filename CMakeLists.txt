@@ -9,6 +9,10 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+#Gcov
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Network Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Network Core)
 
@@ -37,7 +41,7 @@ file(GLOB PROJECT_SOURCES
     "matfHub/src/*.cpp"
     "matfHub/include/*.hpp"
     "matfHub/include/*.h"
-	"matfHub/*.ui"
+        "matfHub/*.ui"
         "matfHub/dependencies/*.cpp"
         "matfHub/dependencies/*.h"
 )
@@ -90,9 +94,9 @@ add_custom_target(install_dependencies
 )
 
 target_link_libraries(
-    matfHub PRIVATE Qt${QT_VERSION_MAJOR}::Widgets 
-    Qt${QT_VERSION_MAJOR}::Network 
-    Qt${QT_VERSION_MAJOR}::Core 
+    matfHub PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Network
+    Qt${QT_VERSION_MAJOR}::Core
     PUBLIC Matplot++::matplot ${ARMADILLO_LIBRARIES}
 )
 
